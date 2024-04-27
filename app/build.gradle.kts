@@ -3,6 +3,8 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.jetbrainsKotlinKapt)
+    alias(libs.plugins.daggerGradlePlugin)
 }
 
 android {
@@ -24,7 +26,7 @@ android {
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
 
-        buildConfigField ("String", "API_KEY", "\"${properties.getProperty("API_KEY")}\"")
+        buildConfigField("String", "API_KEY", "\"${properties.getProperty("API_KEY")}\"")
     }
 
     buildFeatures {
@@ -32,7 +34,7 @@ android {
     }
 
 
-        buildTypes {
+    buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -41,11 +43,11 @@ android {
             )
         }
     }
-    viewBinding {
-        enable = true
+    kapt {
+        correctErrorTypes = true
     }
 
-        compileOptions {
+    compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -68,7 +70,6 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -83,4 +84,26 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Dagger
+    implementation(libs.com.google.dagger)
+    kapt(libs.com.google.dagger.compiler)
+    implementation(libs.androidx.navigation)
+
+    //SplashScreen
+    implementation(libs.androidx.core.splashscreen)
+
+    //Compose Navigation
+    implementation(libs.androidx.hilt)
+
+    // Foundation
+    implementation(libs.androidx.compose.foundation)
+
+    //Retrofit2
+    implementation(libs.com.squareup.retrofit2)
+    implementation(libs.com.squareup.converter.gson)
+
+    //Paging3
+    implementation(libs.androidx.paging)
+    implementation(libs.androidx.paging.compose)
 }
