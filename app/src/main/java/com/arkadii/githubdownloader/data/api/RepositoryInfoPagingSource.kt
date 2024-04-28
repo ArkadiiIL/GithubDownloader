@@ -2,6 +2,7 @@ package com.arkadii.githubdownloader.data.api
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.arkadii.githubdownloader.data.api.mapper.ApiMapper
 import com.arkadii.githubdownloader.domain.model.RepositoryInfo
 import okhttp3.Headers
 import retrofit2.HttpException
@@ -24,10 +25,10 @@ class RepositoryInfoPagingSource(
             val response = repositoryInfoApi.getRepositoryInfoListByUser(user = user, page = page)
             if (response.isSuccessful && response.body() != null) {
                 val hasNextPage = hasNextPage(response.headers())
-                val articles = response.body()!!.distinctBy { it.id }
+                val repositoryInfoList = response.body()!!.map(ApiMapper::mapDtoToModel).distinctBy { it.id }
 
                 return LoadResult.Page(
-                    data = articles,
+                    data = repositoryInfoList,
                     nextKey = if (!hasNextPage) null else page + 1,
                     prevKey = null
                 )

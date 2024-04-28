@@ -7,6 +7,7 @@ import com.arkadii.githubdownloader.domain.usecases.GetRepositoryListByUserUseCa
 import com.arkadii.githubdownloader.domain.usecases.RepositoryInfoUseCases
 import com.arkadii.githubdownloader.util.Constants.GITHUB_BASE_API_URL
 import dagger.Component
+import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -14,7 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Component
+@Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
     @Provides

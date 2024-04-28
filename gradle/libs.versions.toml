@@ -15,6 +15,7 @@ navHilt = "1.2.0"
 retrofit2 = "2.9.0"
 paging = "3.2.1"
 composeFoundation = "1.6.6"
+material = "1.6.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,6 +42,7 @@ com-squareup-converter-gson = { group = "com.squareup.retrofit2", name = "conver
 androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "composeFoundation" }
+androidx-material-icons = {group = "androidx.compose.material", name = "material-icons-extended", version.ref = "material"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

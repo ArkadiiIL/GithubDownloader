@@ -106,4 +106,7 @@ dependencies {
     //Paging3
     implementation(libs.androidx.paging)
     implementation(libs.androidx.paging.compose)
+
+    //IconsExtended
+    implementation(libs.androidx.material.icons)
 }
