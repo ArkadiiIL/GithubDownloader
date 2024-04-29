@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,6 +23,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -29,6 +32,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.arkadii.githubdownloader.R
 import com.arkadii.githubdownloader.presentation.Dimens.BorderWidth1
 import com.arkadii.githubdownloader.presentation.Dimens.IconSize1
+import com.arkadii.githubdownloader.presentation.Dimens.MediumPadding1
+import com.arkadii.githubdownloader.presentation.Dimens.SmallPadding1
+import com.arkadii.githubdownloader.presentation.search.SearchEvent
 import com.arkadii.githubdownloader.ui.theme.GitHubDownloaderTheme
 
 
@@ -41,6 +47,7 @@ fun SearchBar(
     onValueChange: (String) -> Unit,
     onSearch: () -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     val interactionSource = remember {
         MutableInteractionSource()
     }
@@ -51,7 +58,7 @@ fun SearchBar(
         }
     }
 
-    Box(modifier = modifier) {
+    Box(modifier = modifier.padding(SmallPadding1)) {
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,10 +81,17 @@ fun SearchBar(
                 )
             },
             shape = MaterialTheme.shapes.medium,
-            colors = TextFieldDefaults.colors(),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent
+            ),
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(onSearch = {onSearch()})
+            keyboardActions = KeyboardActions(onSearch = {
+                onSearch()
+                keyboardController?.hide()
+            })
         )
     }
 }
@@ -98,9 +112,9 @@ fun Modifier.searchBarBorder() = composed {
 @Composable
 fun SearchBarPreview() {
     GitHubDownloaderTheme {
-        SearchBar(text = "", readOnly = false, onValueChange = {}) {
-            
-        }
+        SearchBar(text = "", readOnly = false, onValueChange = {}, onSearch = {
+
+        })
     }
 }
 

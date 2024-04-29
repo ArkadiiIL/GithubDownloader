@@ -34,7 +34,9 @@ fun SearchScreen(
         Spacer(modifier = Modifier.height(MediumPadding1))
         state.repositoryInfo?.let {
             val repositoryInfo = it.collectAsLazyPagingItems()
-            RepositoryInfoList(repositoryInfo = repositoryInfo)
+            RepositoryInfoList(repositoryInfo = repositoryInfo) {repository ->
+                event(SearchEvent.DownloadRepository(repository))
+            }
         }
     }
 }

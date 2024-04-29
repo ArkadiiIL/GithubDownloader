@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">GitHubDownloader</string>
     <string name="search_placeholder">Search</string>
+    <string name="server_unavailable_error_text">Server Unavailable.</string>
+    <string name="internet_unavailable_error_text">Internet Unavailable.</string>
+    <string name="unknown_error_text">Unknown Error.</string>
 </resources>

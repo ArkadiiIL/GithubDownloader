@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.arkadii.githubdownloader.domain.usecases.RepositoryInfoUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,14 +21,19 @@ class SearchViewModel @Inject constructor(
         when (event) {
             is SearchEvent.SearchRepositoryInfo -> {
                 searchRepositoryInfo()
-
-
             }
 
             is SearchEvent.UpdateSearchQuery -> {
                 _state.value = state.value.copy(searchQuery = event.searchQuery)
+            }
 
-
+            is SearchEvent.DownloadRepository -> {
+                viewModelScope.launch {
+                    repositoryInfoUseCases.getDownloadUrl.invoke(
+                        owner = event.repositoryInfo.owner.login,
+                        repo = event.repositoryInfo.name
+                    )
+                }
             }
         }
     }

@@ -1,8 +1,10 @@
 package com.arkadii.githubdownloader.di
 
+import android.content.Context
 import com.arkadii.githubdownloader.data.api.RepositoryInfoApi
 import com.arkadii.githubdownloader.data.repository.RepositoryInfoRepositoryImpl
 import com.arkadii.githubdownloader.domain.repository.RepositoryInfoRepository
+import com.arkadii.githubdownloader.domain.usecases.GetDownloadUrl
 import com.arkadii.githubdownloader.domain.usecases.GetRepositoryListByUserUseCase
 import com.arkadii.githubdownloader.domain.usecases.RepositoryInfoUseCases
 import com.arkadii.githubdownloader.util.Constants.GITHUB_BASE_API_URL
@@ -10,6 +12,7 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -44,7 +47,8 @@ object AppModule {
         return RepositoryInfoUseCases(
             getRepositoryListByUserUseCase = GetRepositoryListByUserUseCase(
                 repositoryInfoRepository
-            )
+            ),
+            getDownloadUrl = GetDownloadUrl(repositoryInfoRepository)
         )
     }
 }

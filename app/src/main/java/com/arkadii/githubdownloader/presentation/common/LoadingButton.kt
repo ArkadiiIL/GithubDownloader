@@ -25,7 +25,7 @@ fun LoadingButton(
     onClick: () -> Unit
 ) {
     OutlinedButton(
-        onClick = { /*TODO*/ },
+        onClick = onClick,
         modifier = modifier,
         shape = CircleShape,
         border = BorderStroke(BorderStrokeSize1, MaterialTheme.colorScheme.onBackground),

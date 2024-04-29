@@ -15,4 +15,10 @@ interface RepositoryInfoApi {
         @Path("user") user: String,
         @Query("page") page: Int
     ): Response<List<RepositoryInfoDto>>
+
+    @GET("repos/{owner}/{repo}/zipball")
+    suspend fun getDownloadUrl(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String
+    ):Response<Unit>
 }

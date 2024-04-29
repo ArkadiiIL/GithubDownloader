@@ -1,8 +1,10 @@
 package com.arkadii.githubdownloader.presentation.search
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,12 +13,15 @@ import androidx.paging.compose.LazyPagingItems
 import com.arkadii.githubdownloader.domain.model.RepositoryInfo
 import com.arkadii.githubdownloader.presentation.Dimens.ExtraSmallPadding1
 import com.arkadii.githubdownloader.presentation.Dimens.MediumPadding1
+import com.arkadii.githubdownloader.presentation.common.ErrorScreen
 import com.arkadii.githubdownloader.presentation.common.RepositoryInfoCard
+import com.arkadii.githubdownloader.presentation.common.RepositoryInfoCardShimmerEffect
 
 @Composable
 fun RepositoryInfoList(
     modifier: Modifier = Modifier,
-    repositoryInfo: LazyPagingItems<RepositoryInfo>
+    repositoryInfo: LazyPagingItems<RepositoryInfo>,
+    onDownloadButtonClick: (RepositoryInfo) -> Unit
 ) {
     val handlePagingResult = handlePagingResult(repositoryInfo)
 
@@ -30,7 +35,11 @@ fun RepositoryInfoList(
                 count = repositoryInfo.itemCount,
             ) {
                 repositoryInfo[it]?.let { repository ->
-                    RepositoryInfoCard(repositoryInfo = repository, onTitleClick = {})
+                    RepositoryInfoCard(
+                        repositoryInfo = repository,
+                        onTitleClick = {},
+                        onDownloadButtonClick = onDownloadButtonClick
+                    )
                 }
             }
         }
@@ -49,17 +58,29 @@ fun handlePagingResult(repositoryInfo: LazyPagingItems<RepositoryInfo>): Boolean
 
     return when {
         loadState.refresh is LoadState.Loading -> {
-
+            ShimmerEffect()
             false
         }
 
         error != null -> {
-
+            ErrorScreen(error = error)
             false
         }
 
         else -> {
             true
         }
+    }
+}
+
+@Composable
+private fun ShimmerEffect() {
+    Column(verticalArrangement = Arrangement.SpaceAround) {
+        repeat(10) {
+            RepositoryInfoCardShimmerEffect(
+                modifier = Modifier.padding(MediumPadding1)
+            )
+        }
+
     }
 }

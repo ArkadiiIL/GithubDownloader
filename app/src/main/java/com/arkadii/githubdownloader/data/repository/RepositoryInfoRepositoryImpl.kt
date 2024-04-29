@@ -7,6 +7,7 @@ import com.arkadii.githubdownloader.data.api.RepositoryInfoApi
 import com.arkadii.githubdownloader.data.api.RepositoryInfoPagingSource
 import com.arkadii.githubdownloader.domain.model.RepositoryInfo
 import com.arkadii.githubdownloader.domain.repository.RepositoryInfoRepository
+import com.arkadii.githubdownloader.util.Constants.LOCATION_HEADER
 import com.arkadii.githubdownloader.util.Constants.PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
 
@@ -19,5 +20,15 @@ class RepositoryInfoRepositoryImpl(private val repositoryInfoApi: RepositoryInfo
                 RepositoryInfoPagingSource(repositoryInfoApi = repositoryInfoApi, user = user)
             }
         ).flow
+    }
+
+    override suspend fun getDownloadUrl(owner: String, repo: String) {
+        val response = repositoryInfoApi.getDownloadUrl(owner, repo)
+        if (response.isSuccessful) {
+            val headers = response.headers()
+
+            val downloadUrl = headers[LOCATION_HEADER]
+            val b = downloadUrl
+        }
     }
 }
