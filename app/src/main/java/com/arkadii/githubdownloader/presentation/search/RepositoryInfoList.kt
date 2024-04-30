@@ -21,9 +21,14 @@ import com.arkadii.githubdownloader.presentation.common.RepositoryInfoCardShimme
 fun RepositoryInfoList(
     modifier: Modifier = Modifier,
     repositoryInfo: LazyPagingItems<RepositoryInfo>,
-    onDownloadButtonClick: (RepositoryInfo) -> Unit
+    state: SearchState,
+    onDownloadButtonClick: (RepositoryInfo) -> Unit,
 ) {
     val handlePagingResult = handlePagingResult(repositoryInfo)
+
+    if (state.permissionError) {
+        ShowPermissionError()
+    }
 
     if (handlePagingResult) {
         LazyColumn(
@@ -37,13 +42,17 @@ fun RepositoryInfoList(
                 repositoryInfo[it]?.let { repository ->
                     RepositoryInfoCard(
                         repositoryInfo = repository,
-                        onTitleClick = {},
                         onDownloadButtonClick = onDownloadButtonClick
                     )
                 }
             }
         }
     }
+}
+
+@Composable
+fun ShowPermissionError() {
+    ErrorScreen(SecurityException())
 }
 
 @Composable
@@ -63,7 +72,7 @@ fun handlePagingResult(repositoryInfo: LazyPagingItems<RepositoryInfo>): Boolean
         }
 
         error != null -> {
-            ErrorScreen(error = error)
+            ErrorScreen(error = error.error)
             false
         }
 

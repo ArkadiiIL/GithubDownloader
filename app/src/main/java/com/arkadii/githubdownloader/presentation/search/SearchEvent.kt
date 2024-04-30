@@ -8,4 +8,6 @@ sealed class SearchEvent {
     data object SearchRepositoryInfo: SearchEvent()
 
     data class DownloadRepository(val repositoryInfo: RepositoryInfo): SearchEvent()
+
+    data class PermissionGranted(val permissionGranted: Boolean): SearchEvent()
 }

@@ -1,13 +1,18 @@
 package com.arkadii.githubdownloader.presentation.search
 
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.arkadii.githubdownloader.domain.model.RepositoryInfo
 import com.arkadii.githubdownloader.presentation.Dimens.MediumPadding1
 import com.arkadii.githubdownloader.presentation.common.SearchBar
 
@@ -16,6 +21,17 @@ fun SearchScreen(
     state: SearchState,
     event: (SearchEvent) -> Unit
 ) {
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        event(SearchEvent.PermissionGranted(it))
+    }
+
+    if (!state.permissionGranted) {
+        LaunchedEffect(Unit) {
+            permissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+    }
     Column(
         modifier = Modifier
             .padding(
@@ -34,9 +50,17 @@ fun SearchScreen(
         Spacer(modifier = Modifier.height(MediumPadding1))
         state.repositoryInfo?.let {
             val repositoryInfo = it.collectAsLazyPagingItems()
-            RepositoryInfoList(repositoryInfo = repositoryInfo) {repository ->
-                event(SearchEvent.DownloadRepository(repository))
+            RepositoryInfoList(
+                repositoryInfo = repositoryInfo,
+                state = state
+            ) { repository ->
+                if (state.permissionGranted) {
+                    event(SearchEvent.DownloadRepository(repository))
+                } else {
+                    event(SearchEvent.PermissionGranted(false))
+                }
             }
         }
     }
 }
+

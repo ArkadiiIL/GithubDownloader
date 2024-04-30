@@ -1,20 +1,23 @@
 package com.arkadii.githubdownloader.presentation.search
 
+import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.arkadii.githubdownloader.domain.usecases.RepositoryInfoUseCases
+import com.arkadii.githubdownloader.domain.model.RepositoryInfo
+import com.arkadii.githubdownloader.domain.usecases.RepositoryUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repositoryInfoUseCases: RepositoryInfoUseCases
+    private val application: Application,
+    private val repositoryUseCases: RepositoryUseCases
 ) : ViewModel() {
+
     private val _state = mutableStateOf(SearchState())
     val state: State<SearchState> = _state
     fun onEvent(event: SearchEvent) {
@@ -28,19 +31,34 @@ class SearchViewModel @Inject constructor(
             }
 
             is SearchEvent.DownloadRepository -> {
-                viewModelScope.launch {
-                    repositoryInfoUseCases.getDownloadUrl.invoke(
-                        owner = event.repositoryInfo.owner.login,
-                        repo = event.repositoryInfo.name
-                    )
+               val downloadId = download(event.repositoryInfo)
+            }
+
+            is SearchEvent.PermissionGranted -> {
+                if (event.permissionGranted) {
+                    _state.value =
+                        state.value.copy(permissionGranted = true, permissionError = false)
+                } else {
+                    _state.value =
+                        state.value.copy(
+                            permissionGranted = false,
+                            permissionError = true
+                        )
                 }
             }
         }
     }
 
+    private fun download(repositoryInfo: RepositoryInfo) {
+        repositoryUseCases.downloadRepositoryByUrl.invoke(
+            name = repositoryInfo.name,
+            owner = repositoryInfo.owner.login
+        )
+    }
+
     private fun searchRepositoryInfo() {
         val repositoryInfoList =
-            repositoryInfoUseCases.getRepositoryListByUserUseCase.invoke(
+            repositoryUseCases.getRepositoryListByUserUseCase.invoke(
                 user = state.value.searchQuery
             )
                 .cachedIn(viewModelScope)

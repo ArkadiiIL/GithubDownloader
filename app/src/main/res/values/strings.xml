@@ -4,4 +4,6 @@
     <string name="server_unavailable_error_text">Server Unavailable.</string>
     <string name="internet_unavailable_error_text">Internet Unavailable.</string>
     <string name="unknown_error_text">Unknown Error.</string>
+    <string name="permission_deniede_error_text">Permission denied: External storage read permission not granted.</string>
+    <string name="download_description">Downloading</string>
 </resources>

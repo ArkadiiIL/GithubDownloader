@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,9 +33,9 @@ import com.arkadii.githubdownloader.ui.theme.GitHubDownloaderTheme
 fun RepositoryInfoCard(
     modifier: Modifier = Modifier,
     repositoryInfo: RepositoryInfo,
-    onTitleClick: (String) -> Unit,
     onDownloadButtonClick: (RepositoryInfo) -> Unit
 ) {
+    val uriHandler = LocalUriHandler.current
     ElevatedCard(
         modifier = Modifier
             .height(CardHeightSize1)
@@ -54,7 +55,7 @@ fun RepositoryInfoCard(
                 Text(
                     modifier = Modifier
                         .padding(top = SmallPadding1)
-                        .clickable { onTitleClick(repositoryInfo.htmlUrl) },
+                        .clickable { uriHandler.openUri(repositoryInfo.htmlUrl) },
                     text = repositoryInfo.name,
                     style = MaterialTheme.typography.titleSmall.copy(
                         textDecoration = TextDecoration.Underline
@@ -82,7 +83,7 @@ fun RepositoryInfoCard(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .size(ButtonSize1),
-                onClick = {onDownloadButtonClick(repositoryInfo)}
+                onClick = { onDownloadButtonClick(repositoryInfo) }
             )
         }
     }
@@ -105,7 +106,6 @@ fun RepositoryInfoCardPreview() {
                     url = "Owner_test_url"
                 )
             ),
-            onTitleClick = {},
             onDownloadButtonClick = {}
         )
     }

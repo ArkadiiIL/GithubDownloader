@@ -13,6 +13,6 @@ object Dimens {
     val ShimmerTextFieldSize1 = 25.dp
     val ShimmerTextFieldSize2 = 15.dp
     val ShimmerTextFieldSize3 = 12.dp
-    val CardHeightSize1 = 80.dp
+    val CardHeightSize1 = 95.dp
 
 }

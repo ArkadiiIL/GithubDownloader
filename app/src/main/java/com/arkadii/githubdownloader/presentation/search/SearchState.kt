@@ -6,5 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 data class SearchState(
     val searchQuery: String = "",
-    val repositoryInfo: Flow<PagingData<RepositoryInfo>>? = null
+    val repositoryInfo: Flow<PagingData<RepositoryInfo>>? = null,
+    val permissionGranted: Boolean = false,
+    val permissionError: Boolean = false
 )

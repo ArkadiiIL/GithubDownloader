@@ -25,7 +25,7 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 
 @Composable
-fun ErrorScreen(error: LoadState.Error? = null) {
+fun ErrorScreen(error: Throwable? = null) {
     val errorText = stringResource(id = parseErrorMessage(error))
 
     Box(
@@ -46,21 +46,24 @@ fun ErrorScreen(error: LoadState.Error? = null) {
             Text(
                 text = errorText,
                 style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray)
-
             )
         }
     }
 
 }
 
-fun parseErrorMessage(error: LoadState.Error?): Int {
-    return when (error?.error) {
+fun parseErrorMessage(error: Throwable?): Int {
+    return when (error) {
         is SocketTimeoutException -> {
             R.string.server_unavailable_error_text
         }
 
         is ConnectException -> {
             R.string.internet_unavailable_error_text
+        }
+
+        is SecurityException -> {
+            R.string.permission_deniede_error_text
         }
 
         else -> {
@@ -73,6 +76,6 @@ fun parseErrorMessage(error: LoadState.Error?): Int {
 @Preview(showBackground = true)
 fun ErrorScreePreview() {
     GitHubDownloaderTheme {
-        ErrorScreen()
+        ErrorScreen(error = SecurityException())
     }
 }
