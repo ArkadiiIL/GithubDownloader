@@ -12,9 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.arkadii.githubdownloader.domain.model.RepositoryInfo
 import com.arkadii.githubdownloader.presentation.Dimens.MediumPadding1
-import com.arkadii.githubdownloader.presentation.common.SearchBar
+import com.arkadii.githubdownloader.presentation.search.components.RepositoryInfoList
+import com.arkadii.githubdownloader.presentation.search.components.SearchBar
 
 @Composable
 fun SearchScreen(

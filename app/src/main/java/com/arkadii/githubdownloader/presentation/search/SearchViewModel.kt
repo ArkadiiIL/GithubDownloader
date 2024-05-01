@@ -1,6 +1,5 @@
 package com.arkadii.githubdownloader.presentation.search
 
-import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -14,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val application: Application,
     private val repositoryUseCases: RepositoryUseCases
 ) : ViewModel() {
 
@@ -31,7 +29,7 @@ class SearchViewModel @Inject constructor(
             }
 
             is SearchEvent.DownloadRepository -> {
-               val downloadId = download(event.repositoryInfo)
+                download(event.repositoryInfo)
             }
 
             is SearchEvent.PermissionGranted -> {
@@ -52,13 +50,16 @@ class SearchViewModel @Inject constructor(
     private fun download(repositoryInfo: RepositoryInfo) {
         repositoryUseCases.downloadRepositoryByUrl.invoke(
             name = repositoryInfo.name,
-            owner = repositoryInfo.owner.login
+            owner = repositoryInfo.ownerLogin
         )
+        viewModelScope.launch {
+            repositoryUseCases.insertRepositoryInfo.invoke(repositoryInfo)
+        }
     }
 
     private fun searchRepositoryInfo() {
         val repositoryInfoList =
-            repositoryUseCases.getRepositoryListByUserUseCase.invoke(
+            repositoryUseCases.getRepositoryListByUser.invoke(
                 user = state.value.searchQuery
             )
                 .cachedIn(viewModelScope)

@@ -1,4 +1,4 @@
-package com.arkadii.githubdownloader.presentation.search
+package com.arkadii.githubdownloader.presentation.search.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,8 +14,8 @@ import com.arkadii.githubdownloader.domain.model.RepositoryInfo
 import com.arkadii.githubdownloader.presentation.Dimens.ExtraSmallPadding1
 import com.arkadii.githubdownloader.presentation.Dimens.MediumPadding1
 import com.arkadii.githubdownloader.presentation.common.ErrorScreen
-import com.arkadii.githubdownloader.presentation.common.RepositoryInfoCard
 import com.arkadii.githubdownloader.presentation.common.RepositoryInfoCardShimmerEffect
+import com.arkadii.githubdownloader.presentation.search.SearchState
 
 @Composable
 fun RepositoryInfoList(

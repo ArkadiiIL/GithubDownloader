@@ -5,14 +5,22 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.arkadii.githubdownloader.data.api.RepositoryInfoApi
 import com.arkadii.githubdownloader.data.api.RepositoryInfoPagingSource
+import com.arkadii.githubdownloader.data.local.RepositoryInfoDao
+import com.arkadii.githubdownloader.data.mapper.DataMapper
 import com.arkadii.githubdownloader.domain.model.RepositoryInfo
 import com.arkadii.githubdownloader.domain.repository.RepositoryInfoRepository
 import com.arkadii.githubdownloader.util.Constants.LOCATION_HEADER
 import com.arkadii.githubdownloader.util.Constants.PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 
-class RepositoryInfoRepositoryImpl(private val repositoryInfoApi: RepositoryInfoApi) :
-    RepositoryInfoRepository {
+class RepositoryInfoRepositoryImpl(
+    private val repositoryInfoApi: RepositoryInfoApi,
+    private val repositoryInfoDao: RepositoryInfoDao
+    ) : RepositoryInfoRepository {
     override fun getRepositoryInfoListByrUser(user: String): Flow<PagingData<RepositoryInfo>> {
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
@@ -22,13 +30,12 @@ class RepositoryInfoRepositoryImpl(private val repositoryInfoApi: RepositoryInfo
         ).flow
     }
 
-    override suspend fun getDownloadUrl(owner: String, repo: String) {
-        val response = repositoryInfoApi.getDownloadUrl(owner, repo)
-        if (response.isSuccessful) {
-            val headers = response.headers()
-
-            val downloadUrl = headers[LOCATION_HEADER]
-            val b = downloadUrl
-        }
+    override suspend fun insertRepositoryInfo(repositoryInfo: RepositoryInfo) {
+        repositoryInfoDao.insertRepository(DataMapper.mapModelToEntity(repositoryInfo))
     }
+
+    override fun getAllDownloadedRepositories(): Flow<List<RepositoryInfo>> =
+        repositoryInfoDao.getAllRepositories().map { entities ->
+            entities.map { DataMapper.mapEntityToModel(it) }
+        }
 }

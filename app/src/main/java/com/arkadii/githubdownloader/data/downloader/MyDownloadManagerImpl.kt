@@ -2,6 +2,7 @@ package com.arkadii.githubdownloader.data.downloader;
 
 import android.app.DownloadManager
 import android.content.Context
+import android.database.ContentObserver
 import android.net.Uri
 import android.os.Environment
 import com.arkadii.githubdownloader.R

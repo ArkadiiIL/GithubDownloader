@@ -6,4 +6,6 @@
     <string name="unknown_error_text">Unknown Error.</string>
     <string name="permission_deniede_error_text">Permission denied: External storage read permission not granted.</string>
     <string name="download_description">Downloading</string>
+    <string name="search_button_navigation_text">Search</string>
+    <string name="history_button_navigation_text">History</string>
 </resources>

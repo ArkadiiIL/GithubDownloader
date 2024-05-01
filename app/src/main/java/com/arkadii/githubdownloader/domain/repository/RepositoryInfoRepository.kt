@@ -6,5 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RepositoryInfoRepository {
     fun getRepositoryInfoListByrUser(user: String) : Flow<PagingData<RepositoryInfo>>
-    suspend fun getDownloadUrl(owner: String, repo: String)
+    suspend fun insertRepositoryInfo(repositoryInfo: RepositoryInfo)
+    fun getAllDownloadedRepositories(): Flow<List<RepositoryInfo>>
+
 }

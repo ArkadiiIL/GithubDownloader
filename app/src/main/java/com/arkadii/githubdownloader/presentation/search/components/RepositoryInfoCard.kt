@@ -1,4 +1,4 @@
-package com.arkadii.githubdownloader.presentation.common
+package com.arkadii.githubdownloader.presentation.search.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,6 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.arkadii.githubdownloader.domain.model.Owner
 import com.arkadii.githubdownloader.domain.model.RepositoryInfo
 import com.arkadii.githubdownloader.presentation.Dimens.ButtonSize1
 import com.arkadii.githubdownloader.presentation.Dimens.CardHeightSize1
@@ -72,7 +71,7 @@ fun RepositoryInfoCard(
                 )
                 Spacer(modifier = Modifier.height(ExtraSmallPadding1))
                 Text(
-                    text = repositoryInfo.owner.login,
+                    text = repositoryInfo.ownerLogin,
                     style = MaterialTheme.typography.labelSmall.copy(),
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
@@ -99,12 +98,7 @@ fun RepositoryInfoCardPreview() {
                 name = "RepositoryInfo_test_fullName",
                 htmlUrl = "RepositoryInfo_test_htmlUrl",
                 description = "RepositoryInfo_test_description",
-                downloadsUrl = "RepositoryInfo_test_downloadsUrl",
-                owner = Owner(
-                    id = 1,
-                    login = "Owner_test_login",
-                    url = "Owner_test_url"
-                )
+                ownerLogin = "Owner_test_login"
             ),
             onDownloadButtonClick = {}
         )

@@ -5,6 +5,5 @@ data class RepositoryInfo(
     val name: String,
     val htmlUrl: String,
     val description: String?,
-    val downloadsUrl: String,
-    val owner: Owner
+    val ownerLogin: String
 )

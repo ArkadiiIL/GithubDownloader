@@ -1,4 +1,4 @@
-package com.arkadii.githubdownloader.presentation.common
+package com.arkadii.githubdownloader.presentation.search.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -32,9 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.arkadii.githubdownloader.R
 import com.arkadii.githubdownloader.presentation.Dimens.BorderWidth1
 import com.arkadii.githubdownloader.presentation.Dimens.IconSize1
-import com.arkadii.githubdownloader.presentation.Dimens.MediumPadding1
 import com.arkadii.githubdownloader.presentation.Dimens.SmallPadding1
-import com.arkadii.githubdownloader.presentation.search.SearchEvent
 import com.arkadii.githubdownloader.ui.theme.GitHubDownloaderTheme
 
 

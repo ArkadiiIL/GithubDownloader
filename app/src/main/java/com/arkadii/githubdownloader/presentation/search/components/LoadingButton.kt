@@ -1,4 +1,4 @@
-package com.arkadii.githubdownloader.presentation.common
+package com.arkadii.githubdownloader.presentation.search.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arkadii.githubdownloader.presentation.Dimens
 import com.arkadii.githubdownloader.presentation.Dimens.BorderStrokeSize1
-import com.arkadii.githubdownloader.presentation.Dimens.ButtonSize1
 import com.arkadii.githubdownloader.ui.theme.GitHubDownloaderTheme
 
 @Composable
